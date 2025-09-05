@@ -126,6 +126,21 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }} # Needs to be set as a GitHub Secret (Service Principal JSON)
 
+      # Troubleshooting
+
+      - name: Who am I?
+        run: az account show
+
+      - name: Check ACR health
+        run: az acr check-health --name ${{ env.ACR_NAME }} --yes --ignore-errors
+
+      - name: Verify ACR role assignments
+        run: |
+          az role assignment list \
+            --assignee ${{ secrets.AZURE_CLIENT_ID }} \
+            --scope $(az acr show --name ${{ env.ACR_NAME }} --query id -o tsv) \
+            -o table
+
       # Login to Azure Container Registry (ACR)
       - name: Login to Azure Container Registry
         run: az acr login --name ${{ env.ACR_LOGIN_SERVER }}
