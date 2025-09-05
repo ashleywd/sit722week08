@@ -132,13 +132,13 @@ jobs:
         run: az account show
 
       - name: Check ACR health
-        run: az acr check-health --name ${{ env.ACR_NAME }} --yes --ignore-errors
+        run: az acr check-health --name ${{ env.ACR_LOGIN_SERVER }} --yes --ignore-errors
 
       - name: Verify ACR role assignments
         run: |
           az role assignment list \
             --assignee ${{ secrets.AZURE_CLIENT_ID }} \
-            --scope $(az acr show --name ${{ env.ACR_NAME }} --query id -o tsv) \
+            --scope $(az acr show --name ${{ env.ACR_LOGIN_SERVER }} --query id -o tsv) \
             -o table
 
       # Login to Azure Container Registry (ACR)
