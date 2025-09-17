@@ -2,6 +2,8 @@
 
 name: Combined CI - Test, Build and Push Images to ACR
 
+# Adding a comment to test pull request trigger
+
 # Trigger the workflow on pushes to the 'main' branch
 # You can also add 'pull_request:' to run on PRs
 on:
@@ -26,6 +28,7 @@ on:
     paths:
       - "backend/**"
       - "frontend/**"
+      - ".github/workflows/**" # Trigger if any workflow file changes
 
 # Define global environment variables that can be used across jobs
 env:
